@@ -1,23 +1,29 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
+import styled from "styled-components/native";
+import Story from "./components/story/Story";
+
+const Container = styled.View`
+  background-color: #fff;
+`;
+
+const StoriesContainer = styled.ScrollView`
+  flex-direction: row;
+  margin-top: 50px;
+`;
 
 const App = (): JSX.Element => {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <Container>
+      <StoriesContainer showsHorizontalScrollIndicator={false} horizontal>
+        <Story text="somenamesomenamesomename" imageSize={64} />
+        <Story text="somename" imageSize={64} />
+        <Story text="somename" imageSize={64} />
+        <Story text="somename" imageSize={64} />
+        <Story text="somename" imageSize={64} />
+        <Story text="somename" imageSize={64} />
+      </StoriesContainer>
+    </Container>
   );
 };
 
 export default App;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    justifyContent: "center",
-  },
-});

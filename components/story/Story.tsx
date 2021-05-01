@@ -1,6 +1,5 @@
-import { StatusBar } from "expo-status-bar";
 import React from "react";
-import { StyleSheet, View } from "react-native";
+import styled from "styled-components/native";
 import ProfilePictre from "../profile-picture/ProfilePicture";
 import StoryText from "./story-text/StoryText";
 
@@ -10,35 +9,32 @@ type StoryProps = {
 };
 
 const REDGRADIENT = ["#FD1D1D", "#F56040", "#F77737", "#FCAF45", "#FFDC80"];
-const LIGHTGREY = ["#d3d3d3", "#d3d3d3"];
-const TRASNPARENT = ["transparent", "transparent"];
+// const LIGHTGREY = ["#d3d3d3", "#d3d3d3"];
+// const TRASNPARENT = ["transparent", "transparent"];
 
-const openStories = () => {
+const onPress = () => {
   // do something
 };
 
+const Container = styled.View`
+  width: 85px;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  margin-left: 5px;
+`;
+
 const Story = ({ text, imageSize }: StoryProps): JSX.Element => {
   return (
-    <View style={styles.container}>
+    <Container>
       <ProfilePictre
-        openStories={openStories}
+        onPress={onPress}
         imageSize={imageSize}
         borderColor={REDGRADIENT}
       />
       <StoryText text={text} />
-      <StatusBar style="auto" />
-    </View>
+    </Container>
   );
 };
 
 export default Story;
-
-const styles = StyleSheet.create({
-  container: {
-    width: 85,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 10,
-    marginLeft: 5,
-  },
-});

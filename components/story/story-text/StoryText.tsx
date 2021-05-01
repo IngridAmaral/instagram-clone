@@ -1,15 +1,19 @@
 import React from "react";
-import { Text } from "react-native";
+import styled from "styled-components/native";
 
 type StoryTextProps = {
   text: string;
 };
 
+const StoryTextContainer = styled.Text`
+  font-size: 12px;
+`;
+
 const StoryText = ({ text }: StoryTextProps): JSX.Element => {
   return (
-    <Text ellipsizeMode="tail" numberOfLines={1} style={{ fontSize: 12 }}>
+    <StoryTextContainer ellipsizeMode="tail" numberOfLines={1}>
       {text}
-    </Text>
+    </StoryTextContainer>
   );
 };
 

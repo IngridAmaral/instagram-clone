@@ -1,13 +1,13 @@
-import { StatusBar } from "expo-status-bar";
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, Pressable, Animated } from "react-native";
+import { Pressable, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
+import styled from "styled-components/native";
 import * as Animatable from "react-native-animatable";
 
 type ProfilePictureProps = {
   imageSize: number;
   borderColor: string[];
-  openStories: () => void;
+  onPress: () => void;
 };
 
 const calculateGradientSize = (imageSize: number): number =>
@@ -16,12 +16,35 @@ const calculateGradientSize = (imageSize: number): number =>
 const calculateInnerCircleSize = (imageSize: number): number =>
   imageSize < 60 ? imageSize + 2 : imageSize + 7;
 
+const Container = styled.View`
+  align-items: center;
+  justify-content: center;
+  padding: 0px;
+`;
+
+const EmptyBorder = styled.View<{ imageSize: number }>`
+  border-radius: 200px;
+  width: ${(props) => calculateInnerCircleSize(props.imageSize)}px;
+  height: ${(props) => calculateInnerCircleSize(props.imageSize)}px;
+  align-items: center;
+  justify-content: center;
+  background-color: #fff;
+`;
+
+const Picture = styled.Image<{ imageSize: number; source: string }>`
+  width: ${(props) => props.imageSize}px;
+  height: ${(props) => props.imageSize}px;
+  borderRadius: 500px;
+  borderWidth: 1px;
+  borderColor: rgb(250,250,250))
+`;
+
 const ProfilePicture = ({
   imageSize,
   borderColor,
 }: ProfilePictureProps): JSX.Element => {
   const [isPressing, setIsPressing] = useState(false);
-  const [scale, setScale] = useState(new Animated.Value(isPressing ? 0.92 : 1));
+  const [scale] = useState(new Animated.Value(1));
 
   useEffect(() => {
     Animated.timing(scale, {
@@ -32,14 +55,10 @@ const ProfilePicture = ({
   }, [isPressing]);
 
   return (
-    <View style={styles.container}>
+    <Container>
       <Pressable
-        onPressIn={function () {
-          setIsPressing(true);
-        }}
-        onPressOut={() => {
-          setIsPressing(false);
-        }}
+        onPressIn={() => setIsPressing(true)}
+        onPressOut={() => setIsPressing(false)}
       >
         <Animatable.View
           style={{
@@ -54,6 +73,7 @@ const ProfilePicture = ({
             start={[1, 0.5]}
             end={[0, 1]}
             colors={borderColor}
+            // eslint-disable-next-line react-native/no-inline-styles
             style={{
               width: calculateGradientSize(imageSize),
               height: calculateGradientSize(imageSize),
@@ -62,41 +82,17 @@ const ProfilePicture = ({
               justifyContent: "center",
             }}
           >
-            <View
-              style={{
-                borderRadius: 200,
-                width: calculateInnerCircleSize(imageSize),
-                height: calculateInnerCircleSize(imageSize),
-                alignItems: "center",
-                justifyContent: "center",
-                backgroundColor: "#fff",
-              }}
-            >
-              <Image
+            <EmptyBorder imageSize={imageSize}>
+              <Picture
                 source={require("../../assets/20191222_150401.jpg")}
-                style={{
-                  width: imageSize,
-                  height: imageSize,
-                  borderRadius: 500,
-                  borderWidth: 1,
-                  borderColor: "rgb(250,250,250))",
-                }}
-              ></Image>
-            </View>
+                imageSize={imageSize}
+              />
+            </EmptyBorder>
           </LinearGradient>
         </Animatable.View>
       </Pressable>
-      <StatusBar style="auto" />
-    </View>
+    </Container>
   );
 };
 
 export default ProfilePicture;
-
-const styles = StyleSheet.create({
-  container: {
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 0,
-  },
-});
